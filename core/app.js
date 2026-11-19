@@ -102,14 +102,18 @@ class DigiLabApp {
                 const rawSubject = match[2];
                 const fileSlug = match[3];
 
+                                const rawLower = rawSubject.toLowerCase();
                 let cleanSubject = "Science 1";
-                if (rawSubject.includes("2")) cleanSubject = "Science 2";
-                else if (rawSubject.includes("math")) cleanSubject = "Mathematics";
+                if (rawLower.includes("physics")) cleanSubject = "Physics";
+                else if (rawLower.includes("chem")) cleanSubject = "Chemistry";
+                else if (rawLower.includes("bio")) cleanSubject = "Biology";
+                else if (rawLower.includes("math")) cleanSubject = "Mathematics";
+                else if (rawLower.includes("2")) cleanSubject = "Science 2";
 
                 let generatedTitle = fileSlug.replace(/^\d+-/, '').replace(/[-_]/g, ' ');
                 generatedTitle = generatedTitle.charAt(0).toUpperCase() + generatedTitle.slice(1);
 
-                                let expId = `exp_${standard}_${fileSlug.replace(/[-]/g, '_')}`;
+                let expId = `exp_${standard}_${fileSlug.replace(/[-]/g, '_')}`;
 
                 // Specific calibrated IDs & titles matching internal module metadata
                 if (fileSlug.includes("ohms")) {
@@ -124,7 +128,11 @@ class DigiLabApp {
                 } else if (fileSlug.includes("prism")) {
                     generatedTitle = "Refraction of Light Through a Glass Prism";
                     expId = "exp_10_06_prism";
+                } else if (fileSlug.includes("optics")) {
+                    generatedTitle = "Chapter 9: Complete Ray & Wave Optics Lab";
+                    expId = "exp_12_phy_09_optics";
                 }
+
 
                 this.registeredCatalog.push({
                     id: expId,
@@ -1290,11 +1298,16 @@ this.dom.btnCloseApparatusDrawer.addEventListener('click', () => this.closeAppar
         renderAdminLabSubjectCards(standard) {
         this.dom.adminLabSubjectsView.innerHTML = '';
 
-        const allPossibleSubjects = [
+                const allPossibleSubjects = [
+            { id: "Physics", title: "Physics", icon: "🔭", desc: "Optics, Electrodynamics, Mechanics & Modern Physics Labs" },
+            { id: "Chemistry", title: "Chemistry", icon: "🧪", desc: "Volumetric Analysis, Kinetics & Inorganic Qualitative Labs" },
+            { id: "Biology", title: "Biology", icon: "🧬", desc: "Physiology, Genetics & Ecological Practicals" },
+            { id: "Mathematics", title: "Mathematics", icon: "📐", desc: "Calculus, Vectors & 3D Analytical Geometry Labs" },
             { id: "Science 1", title: "Science Part 1", icon: "⚡", desc: "Physical Sciences, Electrodynamics & Chemical Systems" },
-            { id: "Science 2", title: "Science Part 2", icon: "🧬", desc: "Biological & Environmental Sciences Modules" },
+            { id: "Science 2", title: "Science Part 2", icon: "🌿", desc: "Biological & Environmental Sciences Modules" },
             { id: "General Science", title: `Class ${standard} General Science`, icon: "🔬", desc: "Fundamental Practical Curriculum Modules" }
         ];
+
 
         const availableSubjects = allPossibleSubjects.filter(sub => {
             return this.registeredCatalog.some(e => e.standard === standard.toString() && this.isSubjectMatch(e.subject, sub.id));
@@ -1393,11 +1406,16 @@ this.dom.btnCloseApparatusDrawer.addEventListener('click', () => this.closeAppar
             renderSubjectCards(standard) {
         this.dom.studentSubjectsView.innerHTML = '';
 
-        const allPossibleSubjects = [
-            { id: "Science 1", title: "Science Part 1", icon: "⚡", desc: "Physics & Chemistry Practicals (Ohm's Law, Circuit Analysis)" },
-            { id: "Science 2", title: "Science Part 2", icon: "🧬", desc: "Biology & Environmental Sciences Experiments" },
-            { id: "General Science", title: `Class ${standard} General Science`, icon: "🔬", desc: "Fundamental Practical Science Curriculum" }
+                const allPossibleSubjects = [
+            { id: "Physics", title: "Physics", icon: "🔭", desc: "Optics, Electrodynamics, Mechanics & Modern Physics Labs" },
+            { id: "Chemistry", title: "Chemistry", icon: "🧪", desc: "Volumetric Analysis, Kinetics & Inorganic Qualitative Labs" },
+            { id: "Biology", title: "Biology", icon: "🧬", desc: "Physiology, Genetics & Ecological Practicals" },
+            { id: "Mathematics", title: "Mathematics", icon: "📐", desc: "Calculus, Vectors & 3D Analytical Geometry Labs" },
+            { id: "Science 1", title: "Science Part 1", icon: "⚡", desc: "Physical Sciences, Electrodynamics & Chemical Systems" },
+            { id: "Science 2", title: "Science Part 2", icon: "🌿", desc: "Biological & Environmental Sciences Modules" },
+            { id: "General Science", title: `Class ${standard} General Science`, icon: "🔬", desc: "Fundamental Practical Curriculum Modules" }
         ];
+
 
         const availableSubjects = allPossibleSubjects.filter(sub => {
             return this.registeredCatalog.some(e => e.standard === standard.toString() && this.isSubjectMatch(e.subject, sub.id));
