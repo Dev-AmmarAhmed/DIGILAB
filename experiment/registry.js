@@ -4,6 +4,9 @@
 // ========================================================
 
 export const REGISTERED_EXPERIMENTS = [
+    // Class 12 • Physics • Chapter 9: Complete Ray & Wave Optics Suite
+    "../experiments/12/physics/09-optics.js",
+  
     // Class 10 • Science 1 • Chapter 1: Simple Pendulum (Gravitation)
     "../experiments/10/science-1/01-simple-pendulum.js",
 
